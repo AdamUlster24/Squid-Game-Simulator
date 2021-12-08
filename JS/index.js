@@ -144,16 +144,23 @@ function submitPlayerNames() {
 window.addEventListener("keydown", (event) => {
   if (event.key == "s" && duringGame === true) {
     document.getElementById("dead-player").style = "display:block";
-    const randomPlayerIndex = Math.floor(
+    randomPlayerIndex = Math.floor(
       Math.random() * playersRemaining.length
     );
     randomPlayer = playersRemaining[randomPlayerIndex];
     if (starredPlayers.includes(randomPlayer)) {
+      function myFunction(element) {
+        return randomPlayer == element;
+      }
+      starredPlayerIndex = starredPlayers.findIndex(myFunction);
+      console.log(starredPlayerIndex);
+      alert("Hi");
+      console.log(randomPlayer);
       //row = document.getElementById("watchlist").rows;
       //let column = row[starredPlayers.indexOf(randomPlayer) + 1].cells;
       //column[1].innerHTML = "Eliminated";
       document.getElementById("dead-player").style.color = "red";
-      let deleteRow = document.getElementById("watchlist").deleteRow(randomPlayerIndex + 1);
+      table.deleteRow(document.getElementById("row-" + (starredPlayerIndex + 1)).rowIndex);
       addRow = table.insertRow(table.rows.length);
       cell1 = addRow.insertCell(0);
       cell2 = addRow.insertCell(1);
@@ -205,7 +212,9 @@ window.addEventListener("keydown", (event) => {
         Math.floor(Math.random() * 11 + 10);
       if (playersRemaining.length - 20 <= 1) {
         playersLeavePlayersRemaining = redLightGreenLightPlayersRemaining;
-        sugarHoneycombsPlayersRemaining = redLightGreenLightPlayersRemaining - Math.floor(Math.random() * 21 + 70);
+        sugarHoneycombsPlayersRemaining =
+          redLightGreenLightPlayersRemaining -
+          Math.floor(Math.random() * 21 + 70);
         skipGame();
       }
       duringGame = true;
@@ -229,7 +238,8 @@ window.addEventListener("keydown", (event) => {
         playersLeavePlayersRemaining - Math.floor(Math.random() * 21 + 70);
       if (playersRemaining.length - 90 <= 1) {
         sugarHoneycombsPlayersRemaining = playersLeavePlayersRemaining;
-        brawlPlayersRemaining = playersLeavePlayersRemaining - Math.floor(Math.random() * 11 + 20);
+        brawlPlayersRemaining =
+          playersLeavePlayersRemaining - Math.floor(Math.random() * 11 + 20);
         while (brawlPlayersRemaining % 20 != 0) {
           brawlPlayersRemaining -= 1;
         }
@@ -282,7 +292,8 @@ window.addEventListener("keydown", (event) => {
       tugOfWarPlayersRemaining = brawlPlayersRemaining / 2;
       if (playersRemaining.length / 2 <= 1) {
         tugOfWarPlayersRemaining = brawlPlayersRemaining;
-        marblesPlayersRemaining = brawlPlayersRemaining - Math.floor(Math.random() * 11 + 20);
+        marblesPlayersRemaining =
+          brawlPlayersRemaining - Math.floor(Math.random() * 11 + 20);
         skipGame();
       }
       duringGame = true;
