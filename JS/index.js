@@ -153,9 +153,6 @@ window.addEventListener("keydown", (event) => {
         return randomPlayer == element;
       }
       starredPlayerIndex = starredPlayers.findIndex(myFunction);
-      console.log(starredPlayerIndex);
-      alert("Hi");
-      console.log(randomPlayer);
       //row = document.getElementById("watchlist").rows;
       //let column = row[starredPlayers.indexOf(randomPlayer) + 1].cells;
       //column[1].innerHTML = "Eliminated";
