@@ -9,13 +9,18 @@
             <h2 id="title">Squid Game Simulator</h2>
             <div id="checkboxes" style="width:20px;"></div>
             <div id="player-names" style="width:200px;"></div>
+            <p id="player-numbers"></p>
             <table id="watchlist">
                     <tr>
                         <th>Player</th>
                         <th>Status</th>
                     </tr>
             </table>
-            <button id="submit-player-names" onclick="submitPlayerNames()">Submit Player Names</button>
+            <div id="buttons">
+                <button id="randomize-player-names" onclick="randomizePlayerNames()">Randomize Player Names</button>
+                <button id="reset-player-names" onclick="resetPlayerNames()">Reset Player Names</button>
+                <button id="submit-player-names" onclick="submitPlayerNames()">Submit Player Names</button>
+            </div>
             <p id="number-of-players-remaining"></p>
             <h2 id="dead-player"></h2>
         </body>

@@ -62,7 +62,7 @@ const lastNames = [
   "Lewis",
   "Robinson",
 ];
-const result = [];
+let result = [];
 for (const firstName of firstNames) {
   for (const lastName of lastNames) {
     result.push(firstName + " " + lastName);
@@ -73,19 +73,23 @@ function getNickname() {
   return result.splice(randomNicknameIndex, 1)[0];
 }
 for (let i = 1; i <= 456; i++) {
-  let input = document.createElement("input");
-  input.setAttribute("type", "text");
-  input.setAttribute("id", "player-" + i);
-  input.setAttribute("class", "players");
-  input.setAttribute("value", getNickname());
-  document.getElementById("player-names").appendChild(input);
+  playerNameInputField = document.createElement("input");
+  playerNameInputField.setAttribute("type", "text");
+  playerNameInputField.setAttribute("id", "player-" + i);
+  playerNameInputField.setAttribute("class", "players");
+  playerNameInputField.setAttribute("value", getNickname());
+  playerNameInputField.setAttribute("placeholder", playerNameInputField.value);
+  document.getElementById("player-names").appendChild(playerNameInputField);
 }
 for (let i = 1; i <= 456; i++) {
-  let input = document.createElement("input");
-  input.setAttribute("type", "checkbox");
-  input.setAttribute("id", "checkbox-" + i);
-  input.setAttribute("class", "checkbox-size");
-  document.getElementById("checkboxes").appendChild(input);
+  let checkboxInputField = document.createElement("input");
+  checkboxInputField.setAttribute("type", "checkbox");
+  checkboxInputField.setAttribute("id", "checkbox-" + i);
+  checkboxInputField.setAttribute("class", "checkbox-size");
+  document.getElementById("checkboxes").appendChild(checkboxInputField);
+}
+for (let i = 1; i <= 456; i++) {
+  document.getElementById("player-numbers").innerHTML += i + "<br>";
 }
 let playersRemaining = [];
 let starredPlayers = [];
@@ -101,11 +105,52 @@ let marblesPlayersRemaining;
 let glassSteppingStonesPlayersRemaining;
 let knifeFightingPlayersRemaining;
 let squidGamePlayersRemaining;
+
+function randomizePlayerNames() {
+  result = [];
+  for (const firstName of firstNames) {
+    for (const lastName of lastNames) {
+      result.push(firstName + " " + lastName);
+    }
+  }
+  for (let i = 1; i <= 456; i++) {
+    document.getElementById("checkbox-" + i).checked = false;
+    document.getElementById("player-" + i).value = getNickname();
+    document.getElementById("player-" + i).placeholder =
+      document.getElementById("player-" + i).value;
+  }
+}
+function resetPlayerNames() {
+  for (let i = 1; i <= 456; i++) {
+    document.getElementById("checkbox-" + i).checked = false;
+    document.getElementById("player-" + i).value = document.getElementById(
+      "player-" + i
+    ).placeholder;
+  }
+}
+function checkboxAutomatically() {
+  for (let i = 1; i <= 456; i++) {
+    if (
+      document.getElementById("player-" + i).value !=
+      document.getElementById("player-" + i).placeholder
+    ) {
+      document.getElementById("checkbox-" + i).checked = true;
+    } else if (
+      document.getElementById("player-" + i).value ===
+      document.getElementById("player-" + i).placeholder
+    ) {
+      document.getElementById("checkbox-" + i).checked = false;
+    }
+  }
+}
+document
+  .getElementById("player-names")
+  .addEventListener("change", checkboxAutomatically);
 function submitPlayerNames() {
   duringGame = true;
   for (let i = 1; i <= 456; i++) {
     let number = i.toString().padStart(3, "000");
-    document.getElementById("player-" + i).value += " - " + number;
+    document.getElementById("player-" + i).value += "-" + number;
   }
   for (let index = 1; index <= 456; index++) {
     document.getElementById("checkbox-" + index).value =
@@ -113,6 +158,9 @@ function submitPlayerNames() {
   }
   document.getElementById("checkboxes").style.display = "none";
   document.getElementById("player-names").style.display = "none";
+  document.getElementById("player-numbers").style.display = "none";
+  document.getElementById("randomize-player-names").style.display = "none";
+  document.getElementById("reset-player-names").style.display = "none";
   document.getElementById("submit-player-names").style.display = "none";
   document.getElementById("watchlist").style.display = "table";
   document.getElementById("title").innerHTML = "Game #1: Red Light Green Light";
@@ -144,9 +192,7 @@ function submitPlayerNames() {
 window.addEventListener("keydown", (event) => {
   if (event.key == "s" && duringGame === true) {
     document.getElementById("dead-player").style = "display:block";
-    randomPlayerIndex = Math.floor(
-      Math.random() * playersRemaining.length
-    );
+    randomPlayerIndex = Math.floor(Math.random() * playersRemaining.length);
     randomPlayer = playersRemaining[randomPlayerIndex];
     if (starredPlayers.includes(randomPlayer)) {
       function myFunction(element) {
@@ -157,7 +203,9 @@ window.addEventListener("keydown", (event) => {
       //let column = row[starredPlayers.indexOf(randomPlayer) + 1].cells;
       //column[1].innerHTML = "Eliminated";
       document.getElementById("dead-player").style.color = "red";
-      table.deleteRow(document.getElementById("row-" + (starredPlayerIndex + 1)).rowIndex);
+      table.deleteRow(
+        document.getElementById("row-" + (starredPlayerIndex + 1)).rowIndex
+      );
       addRow = table.insertRow(table.rows.length);
       cell1 = addRow.insertCell(0);
       cell2 = addRow.insertCell(1);
@@ -311,8 +359,8 @@ window.addEventListener("keydown", (event) => {
       document.getElementById("dead-player").style = "display:none";
       currentGame = "Marbles";
       marblesPlayersRemaining =
-        tugOfWarPlayersRemaining - Math.floor(Math.random() * 11 + 20);
-      if (playersRemaining.length - 30 <= 1) {
+        tugOfWarPlayersRemaining / 2 - Math.floor(Math.random() * 6 + 0);
+      if (playersRemaining.length / 2 - 5 <= 1) {
         marblesPlayersRemaining = tugOfWarPlayersRemaining;
         glassSteppingStonesPlayersRemaining =
           tugOfWarPlayersRemaining - Math.floor(Math.random() * 5 + 11);
