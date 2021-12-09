@@ -56,6 +56,10 @@ th, td {
   margin-top: 7px;
   margin-bottom: 7px;
 }
+#restart-game {
+  display: none;
+  position: absolute;
+}
 #number-of-players-remaining {
   position: absolute;
   top: 100px;

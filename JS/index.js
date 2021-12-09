@@ -93,6 +93,8 @@ for (let i = 1; i <= 456; i++) {
 }
 let playersRemaining = [];
 let starredPlayers = [];
+let originalPlayersRemaining = [];
+let originalStarredPlayers = [];
 let duringGame = false;
 let playerStatus = "alive";
 let currentGame = "Red Light Green Light";
@@ -168,6 +170,7 @@ function submitPlayerNames() {
   const inputs = document.getElementsByClassName("players");
   for (const input of inputs) {
     playersRemaining.push(input.value);
+    originalPlayersRemaining.push(input.value);
   }
   let checkboxesChecked = document.querySelectorAll(
     'input[type="checkbox"]:checked'
@@ -175,6 +178,7 @@ function submitPlayerNames() {
   table = document.getElementById("watchlist");
   for (let i = 0; i < checkboxesChecked.length; i++) {
     starredPlayers.push(checkboxesChecked[i].value);
+    originalStarredPlayers.push(checkboxesChecked[i].value);
   }
   for (let i = 1; i <= starredPlayers.length; i++) {
     addRow = table.insertRow(table.rows.length);
@@ -207,6 +211,7 @@ window.addEventListener("keydown", (event) => {
         document.getElementById("row-" + (starredPlayerIndex + 1)).rowIndex
       );
       addRow = table.insertRow(table.rows.length);
+      addRow.setAttribute("id", "row-" + (table.rows.length - 1));
       cell1 = addRow.insertCell(0);
       cell2 = addRow.insertCell(1);
       cell1.innerHTML = randomPlayer;
@@ -450,6 +455,8 @@ window.addEventListener("keydown", (event) => {
           " Has Won!"
       );
       document.getElementById("dead-player").style = "display:none";
+      document.getElementById("restart-game").style = "display:block";
+      playersRemaining.splice(0, 1);
     }
   }
 });
@@ -471,4 +478,38 @@ function skipGame() {
   } else if (currentGame === "Knife Fighting") {
     currentGame = "Squid Game";
   }
+}
+function restartGame() {
+  playersRemaining = [...originalPlayersRemaining];
+  starredPlayers = [...originalStarredPlayers];
+  duringGame = true;
+  document.getElementById("checkboxes").style.display = "none";
+  document.getElementById("player-names").style.display = "none";
+  document.getElementById("player-numbers").style.display = "none";
+  document.getElementById("randomize-player-names").style.display = "none";
+  document.getElementById("reset-player-names").style.display = "none";
+  document.getElementById("restart-game").style.display = "none";
+  document.getElementById("title").innerHTML = "Game #1: Red Light Green Light";
+  document.getElementById("number-of-players-remaining").innerHTML = "456";
+  document.getElementById("dead-player").style.display = "none";
+  table.innerHTML = "";
+  let tr = document.createElement("tr");
+  table.appendChild(tr);
+  let th1 = document.createElement("th");
+  let th2 = document.createElement("th");
+  tr.appendChild(th1);
+  tr.appendChild(th2);
+  th1.style.border = "solid 1px black";
+  th1.innerHTML = "Player";
+  th2.style.border = "solid 1px black";
+  th2.innerHTML = "Status";
+  for (let i = 1; i <= starredPlayers.length; i++) {
+    addRow = table.insertRow(table.rows.length);
+    addRow.setAttribute("id", "row-" + i);
+    cell1 = addRow.insertCell(0);
+    cell2 = addRow.insertCell(1);
+    cell1.innerHTML = starredPlayers[i - 1];
+    cell2.innerHTML = "Alive";
+  }
+  currentGame = "Red Light Green Light";
 }
