@@ -107,6 +107,7 @@ let marblesPlayersRemaining;
 let glassSteppingStonesPlayersRemaining;
 let knifeFightingPlayersRemaining;
 let squidGamePlayersRemaining;
+let winners = [];
 
 function randomizePlayerNames() {
   result = [];
@@ -137,10 +138,7 @@ function checkboxAutomatically() {
       document.getElementById("player-" + i).placeholder
     ) {
       document.getElementById("checkbox-" + i).checked = true;
-    } else if (
-      document.getElementById("player-" + i).value ===
-      document.getElementById("player-" + i).placeholder
-    ) {
+    } else {
       document.getElementById("checkbox-" + i).checked = false;
     }
   }
@@ -170,16 +168,14 @@ function submitPlayerNames() {
   const inputs = document.getElementsByClassName("players");
   for (const input of inputs) {
     playersRemaining.push(input.value);
-    originalPlayersRemaining.push(input.value);
   }
   let checkboxesChecked = document.querySelectorAll(
     'input[type="checkbox"]:checked'
   );
-  table = document.getElementById("watchlist");
   for (let i = 0; i < checkboxesChecked.length; i++) {
     starredPlayers.push(checkboxesChecked[i].value);
-    originalStarredPlayers.push(checkboxesChecked[i].value);
   }
+  table = document.getElementById("watchlist");
   for (let i = 1; i <= starredPlayers.length; i++) {
     addRow = table.insertRow(table.rows.length);
     addRow.setAttribute("id", "row-" + i);
@@ -192,6 +188,8 @@ function submitPlayerNames() {
   if (playersRemaining.length - 278 <= 1) {
     skipGame();
   }
+  originalPlayersRemaining = [...playersRemaining];
+  originalStarredPlayers = [...starredPlayers];
 }
 window.addEventListener("keydown", (event) => {
   if (event.key == "s" && duringGame === true) {
@@ -454,9 +452,10 @@ window.addEventListener("keydown", (event) => {
           playersRemaining[0] +
           " Has Won!"
       );
-      document.getElementById("dead-player").style = "display:none";
-      document.getElementById("restart-game").style = "display:block";
-      playersRemaining.splice(0, 1);
+      document.getElementById("watchlist").style.display = "none";
+      document.getElementById("dead-player").style.display = "none";
+      document.getElementById("restart-game").style.display = "block";
+      standings();
     }
   }
 });
@@ -479,6 +478,27 @@ function skipGame() {
     currentGame = "Squid Game";
   }
 }
+function standings() {
+  standingsTable = document.getElementById("standings");
+  function findPlayer(element) {
+    return playersRemaining[0] == element;
+  }
+  document.getElementById("standings").style.display = "table";
+  if (winners.includes(playersRemaining[0])) {
+    winnerIndex = winners.findIndex(findPlayer);
+    row = standingsTable.rows;
+    let column = row[winnerIndex + 1].cells;
+    column[1].innerHTML = parseInt(column[1].innerHTML) + 1;
+  }
+  else {
+    winners.push(playersRemaining[0]);
+    addStandingsRow = standingsTable.insertRow(standingsTable.rows.length);
+    standingsCell1 = addStandingsRow.insertCell(0);
+    standingsCell2 = addStandingsRow.insertCell(1);
+    standingsCell1.innerHTML = playersRemaining[0];
+    standingsCell2.innerHTML = "1";
+  }
+}
 function restartGame() {
   playersRemaining = [...originalPlayersRemaining];
   starredPlayers = [...originalStarredPlayers];
@@ -486,12 +506,14 @@ function restartGame() {
   document.getElementById("checkboxes").style.display = "none";
   document.getElementById("player-names").style.display = "none";
   document.getElementById("player-numbers").style.display = "none";
+  document.getElementById("watchlist").style.display = "table";
   document.getElementById("randomize-player-names").style.display = "none";
   document.getElementById("reset-player-names").style.display = "none";
   document.getElementById("restart-game").style.display = "none";
   document.getElementById("title").innerHTML = "Game #1: Red Light Green Light";
   document.getElementById("number-of-players-remaining").innerHTML = "456";
   document.getElementById("dead-player").style.display = "none";
+  document.getElementById("standings").style.display = "none";
   table.innerHTML = "";
   let tr = document.createElement("tr");
   table.appendChild(tr);
