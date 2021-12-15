@@ -188,6 +188,7 @@ function submitPlayerNames() {
   if (playersRemaining.length - 278 <= 1) {
     skipGame();
   }
+  document.getElementById("game-image").src="./images/Red Light Green Light.jpg";
   originalPlayersRemaining = [...playersRemaining];
   originalStarredPlayers = [...starredPlayers];
 }
@@ -267,6 +268,7 @@ window.addEventListener("keydown", (event) => {
       }
       duringGame = true;
       document.getElementById("title").innerHTML = currentGame;
+      document.getElementById("game-image").src="./images/Players Leave.jpg";
     }
     function playersLeave() {
       if (playersRemaining.length === playersLeavePlayersRemaining) {
@@ -295,6 +297,7 @@ window.addEventListener("keydown", (event) => {
       }
       duringGame = true;
       document.getElementById("title").innerHTML = currentGame;
+      document.getElementById("game-image").src="./images/Sugar Honeycombs.jpg";
     }
     function sugarHoneycombs() {
       if (playersRemaining.length === sugarHoneycombsPlayersRemaining) {
@@ -322,6 +325,7 @@ window.addEventListener("keydown", (event) => {
       }
       duringGame = true;
       document.getElementById("title").innerHTML = currentGame;
+      document.getElementById("game-image").src="./images/Brawl.jfif";
     }
     function brawl() {
       if (playersRemaining.length === brawlPlayersRemaining) {
@@ -346,6 +350,7 @@ window.addEventListener("keydown", (event) => {
       }
       duringGame = true;
       document.getElementById("title").innerHTML = currentGame;
+      document.getElementById("game-image").src="./images/Tug of War.jfif";
     }
     function tugOfWar() {
       if (playersRemaining.length === tugOfWarPlayersRemaining) {
@@ -371,6 +376,7 @@ window.addEventListener("keydown", (event) => {
       }
       duringGame = true;
       document.getElementById("title").innerHTML = currentGame;
+      document.getElementById("game-image").src="./images/Marbles.jpg";
     }
     function marbles() {
       if (playersRemaining.length === marblesPlayersRemaining) {
@@ -395,6 +401,7 @@ window.addEventListener("keydown", (event) => {
       }
       duringGame = true;
       document.getElementById("title").innerHTML = currentGame;
+      document.getElementById("game-image").src="./images/Glass Stepping Stones.jpg";
     }
     function glassSteppingStones() {
       if (playersRemaining.length === glassSteppingStonesPlayersRemaining) {
@@ -418,6 +425,7 @@ window.addEventListener("keydown", (event) => {
       }
       duringGame = true;
       document.getElementById("title").innerHTML = currentGame;
+      document.getElementById("game-image").src="./images/Knife Fighting.jpg";
     }
     function knifeFighting() {
       if (playersRemaining.length === knifeFightingPlayersRemaining) {
@@ -437,6 +445,7 @@ window.addEventListener("keydown", (event) => {
       squidGamePlayersRemaining = 1;
       duringGame = true;
       document.getElementById("title").innerHTML = currentGame;
+      document.getElementById("game-image").src="./images/Squid Game.jpg";
     }
     function squidGame() {
       if (playersRemaining.length === squidGamePlayersRemaining) {
@@ -455,6 +464,7 @@ window.addEventListener("keydown", (event) => {
       document.getElementById("watchlist").style.display = "none";
       document.getElementById("dead-player").style.display = "none";
       document.getElementById("restart-game").style.display = "block";
+      document.getElementById("game-image").src="";
       standings();
     }
   }
@@ -534,4 +544,5 @@ function restartGame() {
     cell2.innerHTML = "Alive";
   }
   currentGame = "Red Light Green Light";
+  document.getElementById("game-image").src="./images/Red Light Green Light.jpg";
 }
